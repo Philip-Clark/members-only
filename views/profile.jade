@@ -1,0 +1,22 @@
+extends layout 
+
+block content 
+  button#themeSwitch
+  #profile
+    if currentUser 
+      h2 Hello #{currentUser.username}!
+      p Roles:
+        #roles
+          each role in user.roles
+            p#role(role=role.name) #{role.name}
+
+      form(action="/profile/secret" method="post")
+        input(type="text" name="secret" placeholder="Enter secret codes here")
+        button(type="submit") Check 
+        if secretErrors
+          each error in secretErrors
+            p.error #{error.msg}  
+      p 
+        form(action="/logout" method="post")
+          button Log out
+

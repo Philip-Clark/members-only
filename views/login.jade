@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+  #login
+    h1 Log In
+    form(action="/login" method="post")
+      input(type="text" name="username" placeholder="username" required)
+      input(type="password" name="password" placeholder="password" required)
+      button(type="submit") Log in
+      if errors
+        each error in errors
+          p= error.msg
+      if failureMessage
+      p=failureMessage

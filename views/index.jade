@@ -1,0 +1,37 @@
+extends layout
+
+block content
+
+  if currentUser
+    #chirps
+      each chirp in chirps
+        #chirp(role=chirp.user.roles.map((value) => value.name))
+          #chirpHeader
+                if currentUser && currentUser.username==chirp.user.username
+                  p#username You
+                else
+                  p#username=chirp.user.username
+
+                if user.roles.map((value) => value.name).includes("Admin")
+                  form(action="/deleteMessage" method="post")#deleteMessage
+                    input(type="hidden" name="messageId" value=chirp._id)
+                    button.minor ❌
+                p#timestamp #{chirp.timestamp_relative}
+          p #{chirp.decodedMessage}
+
+      #chirpInput
+        form(action="/newMessage" method="post")
+          input(type="text" name="message" placeholder="message" required autofocus)
+          button Chirp
+  else
+    #blocker
+      h1#icon 🐦
+      h1 You must be logged in to chirp.
+      form(action="/login" method="get")
+        button Log in
+      form(action="/signup" method="get")
+        button.minor Sign up
+
+block inHead 
+  script(src="/javascripts/scrollToCurrent.js" defer) 
+

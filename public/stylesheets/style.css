@@ -1,0 +1,321 @@
+:root.light {
+  --background: #ffffff;
+  --text: #000000;
+  --text2: #ffffff;
+  --text3: #848484;
+  --border: #c3c3c3;
+  --primary: #ff2870;
+
+  --shadow: rgba(0, 0, 0, 0.175);
+
+  --admin: #1e96c9;
+  --superuser: #82c91e;
+  --user: #ff2870;
+}
+
+:root.dark {
+  --background: #282828;
+  --text: #e3e3e3;
+  --text2: #ffffff;
+  --text3: #848484;
+  --border: #434343;
+  --primary: #ff2870;
+
+  --shadow: rgba(0, 0, 0, 0.204);
+
+  --admin: #1e96c9;
+  --superuser: #82c91e;
+  --user: #ff2870;
+}
+
+#themeSwitch {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 100;
+  overflow: hidden;
+  padding: 4px;
+  margin: 0;
+  border: none;
+  border-radius: 10000px;
+  outline: none;
+  background-color: transparent;
+}
+
+#themeSwitch::after {
+  content: '☀️ 🌑';
+}
+#themeSwitch::before {
+  width: 45%;
+  aspect-ratio: 1/1;
+  border-radius: 10000px;
+  border: none;
+  background-color: var(--primary);
+  position: absolute;
+  transition: all 0.2s cubic-bezier(0.23, 0.16, 0.18, 1.29);
+}
+
+:root.dark #themeSwitch::before {
+  content: '🌑';
+  transform: translateX(100%);
+}
+:root.light #themeSwitch::before {
+  content: '☀️';
+  transform: translateX(0%);
+}
+
+body {
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  height: 100vh !important;
+  background-color: var(--background);
+  color: var(--text);
+}
+#chirp[role*='user'] p#username {
+  color: var(--user) !important;
+}
+
+#chirp[role*='SuperUser'] p#username {
+  color: var(--superuser) !important;
+}
+
+#chirp[role*='Admin'] p#username {
+  color: var(--admin) !important;
+}
+
+a {
+  color: var(--primary);
+}
+#header a {
+  text-decoration: none;
+  color: var(--text);
+}
+#chirps {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  height: 80vh;
+}
+#chirp {
+  display: flex;
+  gap: 5px;
+  align-items: start;
+  flex-direction: column;
+  background-color: var(--background);
+  padding: 10px;
+  border: solid 1px var(--border);
+  box-shadow: 0px 0px 10px 0px var(--shadow);
+  border-radius: 10px;
+}
+
+#profile {
+  max-width: 40ch;
+  margin: auto;
+}
+
+#roles {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+#roles #role {
+  border: solid 1px var(--border);
+  border-radius: 10px;
+  padding: 5px;
+  margin: 0;
+  width: min-content;
+  color: var(--border);
+}
+
+#roles #role[role*='user'] {
+  color: var(--user);
+  border-color: var(--user);
+}
+#roles #role[role*='SuperUser'] {
+  color: var(--superuser);
+  border-color: var(--superuser);
+}
+#roles #role[role*='Admin'] {
+  color: var(--admin);
+  border-color: var(--admin);
+}
+
+#chirpHeader {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  position: relative;
+  width: 100%;
+}
+
+#deleteMessage {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#chirpHeader #timestamp {
+  font-size: 0.8em;
+  color: var(--text3);
+}
+
+#chirp #username {
+  font-weight: bold;
+  color: var(--superuser);
+}
+
+#chirp p {
+  margin: 0;
+  color: var(--text);
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background);
+  border-bottom: solid 1px var(--border);
+  box-shadow: 0px 0px 10px 0px var(--shadow);
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 40px);
+  margin: 0;
+  padding: 5px 20px;
+  height: fit-content;
+  z-index: 999;
+}
+#header * {
+  margin: 0;
+}
+
+#header #actions {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  background-color: var(--primary);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text2);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button.minor {
+  background-color: var(--background);
+  color: var(--primary);
+  border: solid 1px var(--primary);
+}
+
+#chirpInput {
+  display: flex;
+  position: absolute;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  width: calc(100vw - 40px);
+  background-color: var(--background);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px var(--shadow);
+  border: solid 1px var(--border);
+}
+
+#chirpInput form {
+  display: flex;
+  flex-grow: 1;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  flex-grow: 1;
+  border-radius: 10px;
+  border: solid 1px var(--border);
+  color: var(--text);
+  background-color: var(--background);
+}
+
+input:focus {
+  outline: none;
+  border: solid 2px var(--primary);
+}
+
+#blocker {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background);
+  opacity: 1;
+  z-index: 1;
+}
+#blocker #icon {
+  font-size: 10em;
+  margin: 0;
+  padding: 0;
+  transition: transform 0.2s ease-in-out;
+  user-select: none;
+  cursor: default;
+}
+
+#blocker #icon:hover {
+  transform: translateY(-20px) scale(1.1) rotate(5deg);
+}
+
+#blocker #icon {
+  font-size: 10em;
+  margin: 0;
+  padding: 0;
+  animation: bob 1s infinite alternate, wiggle 0.5s infinite;
+}
+
+#blocker button {
+  width: 40ch;
+}
+
+#login,
+#signup,
+#profile {
+  width: 60ch;
+  aspect-ratio: 4/3;
+  background-color: var(--background);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px var(--shadow);
+  border: solid 1px var(--border);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+}
+
+#login form,
+#signup form,
+#profile form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}

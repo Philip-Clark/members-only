@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="/javascripts/themeSwitch.js" defer) 
+    block inHead
+  body
+    #header
+      if currentUser
+        a(href="/")
+          h1 Chirpy 🐦
+        #actions
+          form(action="/logout" method="post")
+            button Log out
+          form(action="/profile" method="get")
+            button.minor Profile
+
+      else
+        a(href="/")
+          h1 Chirpy 🐦
+        #actions 
+          form(action="/login" method="get")
+            button Log in
+          form(action="/signup" method="get")
+            button.minor Sign up
+    block content
