@@ -12,7 +12,11 @@ exports.profileGet = asyncHandler(async (req, res, next) => {
     duplicate: 'Secret already added.',
   }[secretStatus];
 
-  res.render('profile', { user: user, secretStatus: secretStatusMessage });
+  res.render('profile', {
+    user: user,
+    secretStatus: secretStatusMessage,
+    title: 'Chirpy | Profile',
+  });
 });
 
 exports.profileUpdateGet = (req, res, next) => {

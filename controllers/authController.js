@@ -6,7 +6,7 @@ const User = require('../models/User');
 const Role = require('../models/Role');
 
 exports.loginGet = function (req, res) {
-  res.render('login', { user: req.user });
+  res.render('login', { user: req.user, title: 'Chirpy | Login' });
 };
 
 exports.loginPost = [
@@ -37,7 +37,7 @@ exports.loginPost = [
   }),
 ];
 exports.signupGet = function (req, res) {
-  res.render('signup', { user: req.user });
+  res.render('signup', { user: req.user, title: 'Chirpy | Signup' });
 };
 
 exports.signupPost = [
@@ -81,9 +81,9 @@ exports.signupPost = [
   }),
 ];
 
-exports.logout = function (req, res, next) {
-  req.logout((err) => {
-    return next(err);
+exports.logout = async (req, res, next) => {
+  await req.logout((err) => {
+    if (err) return next(err);
+    res.redirect('/');
   });
-  res.redirect('/');
 };

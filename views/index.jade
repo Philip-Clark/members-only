@@ -1,22 +1,26 @@
 extends layout
-
 block content
+  - var roles = user.roles.map((role) => role.name)
 
   if currentUser
     #chirps
       each chirp in chirps
         #chirp(role=chirp.user.roles.map((value) => value.name))
           #chirpHeader
-                if currentUser && currentUser.username==chirp.user.username
-                  p#username You
-                else
-                  p#username=chirp.user.username
+                if roles.includes("Admin") || roles.includes("SuperUser")
+                  if currentUser && currentUser.username==chirp.user.username
+                    p#username You
+                  else
+                    p#username=chirp.user.username
 
-                if user.roles.map((value) => value.name).includes("Admin")
-                  form(action="/deleteMessage" method="post")#deleteMessage
-                    input(type="hidden" name="messageId" value=chirp._id)
-                    button.minor ❌
-                p#timestamp #{chirp.timestamp_relative}
+                  if roles.includes("Admin")
+                    form(action="/deleteMessage" method="post")#deleteMessage
+                      input(type="hidden" name="messageId" value=chirp._id)
+                      button.minor ❌
+                  p#timestamp #{chirp.timestamp_relative}
+                else 
+                  p#username ■■■■■■
+                  p#timestamp ■■■■■■
           p #{chirp.decodedMessage}
 
     #chirpInput

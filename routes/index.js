@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
     .populate({ path: 'user', populate: { path: 'roles', select: 'name' } })
     .exec();
   const user = await User.findOne(req.user).populate('roles').exec();
-  res.render('index', { user: user, chirps: chirps });
+  res.render('index', { user: user, chirps: chirps, title: 'Chirpy' });
 });
 
 //* LOGIN
