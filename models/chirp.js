@@ -18,10 +18,5 @@ ChirpSchema.virtual('decodedMessage').get(function () {
   return he.decode(this.message);
 });
 
-// Virtual for chirp's URL
-ChirpSchema.virtual('url').get(function () {
-  return `/chirp/${this._id}`;
-});
-
 //Export model
 module.exports = mongoose.model('Chirp', ChirpSchema);
