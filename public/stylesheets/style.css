@@ -75,7 +75,7 @@ body {
   background-color: var(--background);
   color: var(--text);
   display: grid;
-  grid-template-rows: 40px 1fr 80px;
+  grid-template-rows: 50px 1fr 80px;
 }
 #chirp[role*='user'] p#username {
   color: var(--user) !important;
