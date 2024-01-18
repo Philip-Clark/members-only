@@ -43,10 +43,10 @@ exports.signupGet = function (req, res) {
 exports.signupPost = [
   asyncHandler(async (req, res, next) => {
     const duplicate = await User.findOne({ username: req.body.username });
-    if (duplicate) {
+    if (duplicate !== null) {
       res.render('signup', { user: req.user, errors: [{ msg: 'Username already exists.' }] });
-      return;
     }
+    next();
   }),
   body('username', 'Username must not be empty.').trim().isLength({ min: 1 }).escape(),
   body('password', 'Password must not be empty.').trim().isLength({ min: 1 }).escape(),
@@ -64,7 +64,6 @@ exports.signupPost = [
       res.render('signup', { user: req.user, errors: errors.array() });
       return;
     }
-
     bcrypt.hash(req.body.password, 10, async (err, hash) => {
       const user = new User({
         username: req.body.username,
@@ -74,12 +73,10 @@ exports.signupPost = [
 
       await user.save();
       setTimeout(() => {}, 0);
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/');
-      });
+      passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/signup',
+      })(req, res, next);
     });
   }),
 ];

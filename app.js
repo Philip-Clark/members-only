@@ -26,7 +26,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
 
-app.use(session({ secret: 'Members', resave: false, saveUninitialized: true })); // session
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true })); // session
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(

@@ -42,6 +42,6 @@ exports.profileSecretPost = [
     const user = new User({ ...req.user, _id: req.user._id, roles: [match, ...req.user.roles] });
     await User.findByIdAndUpdate(req.user._id, user, {});
     res.locals.currentUser = user;
-    res.render('profile', { user: req.user, secretErrors: [{ msg: 'Secret is valid.' }] });
+    res.redirect('back');
   }),
 ];
