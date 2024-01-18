@@ -5,8 +5,14 @@ const asyncHandler = require('express-async-handler');
 
 exports.profileGet = asyncHandler(async (req, res, next) => {
   const user = await User.findOne(req.user).populate('roles').exec();
+  const secretStatus = req.query.secretStatus;
+  const secretStatusMessage = {
+    valid: 'Secret added successfully.',
+    invalid: 'Invalid secret.',
+    duplicate: 'Secret already added.',
+  }[secretStatus];
 
-  res.render('profile', { user: user });
+  res.render('profile', { user: user, secretStatus: secretStatusMessage });
 });
 
 exports.profileUpdateGet = (req, res, next) => {
@@ -27,21 +33,19 @@ exports.profileSecretPost = [
 
     const match = await Role.findOne({ password: req.body.secret });
     if (!match) {
-      res.render('profile', { user: req.user, secretErrors: [{ msg: 'Secret is invalid.' }] });
+      res.redirect('/profile/?secretStatus=invalid');
       return;
     }
 
     const duplicate = await User.findOne({ _id: req.user._id, roles: match });
     if (duplicate) {
-      res.render('profile', { user: req.user, secretErrors: [{ msg: 'Role already applied' }] });
+      res.redirect('/profile/?secretStatus=duplicate');
       return;
     }
-
-    console.log('Secret is valid');
 
     const user = new User({ ...req.user, _id: req.user._id, roles: [match, ...req.user.roles] });
     await User.findByIdAndUpdate(req.user._id, user, {});
     res.locals.currentUser = user;
-    res.redirect('back');
+    res.redirect('/profile/?secretStatus=valid');
   }),
 ];

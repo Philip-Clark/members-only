@@ -13,9 +13,8 @@ block content
       form(action="/profile/secret" method="post")
         input(type="text" name="secret" placeholder="Enter secret codes here")
         button(type="submit") Check 
-        if secretErrors
-          each error in secretErrors
-            p.error #{error.msg}  
+        if secretStatus
+          p #{secretStatus}
       p 
         form(action="/logout" method="post")
           button Log out
