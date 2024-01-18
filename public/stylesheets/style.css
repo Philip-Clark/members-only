@@ -74,6 +74,8 @@ body {
   height: 100vh !important;
   background-color: var(--background);
   color: var(--text);
+  display: grid;
+  grid-template-rows: 40px 1fr 80px;
 }
 #chirp[role*='user'] p#username {
   color: var(--user) !important;
@@ -95,12 +97,11 @@ a {
   color: var(--text);
 }
 #chirps {
-  padding: 50px;
+  padding: 0 50px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: scroll;
-  height: 80vh;
 }
 #chirp {
   display: flex;
@@ -191,7 +192,7 @@ a {
   width: calc(100vw - 40px);
   margin: 0;
   padding: 5px 20px;
-  height: fit-content;
+  height: 1fr;
   z-index: 999;
 }
 #header * {
@@ -221,9 +222,10 @@ button.minor {
 
 #chirpInput {
   display: flex;
-  position: absolute;
   padding: 10px;
+  margin: 0;
   bottom: 0;
+  margin-top: 20px;
   left: 0;
   width: calc(100vw - 40px);
   background-color: var(--background);

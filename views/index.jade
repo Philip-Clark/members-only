@@ -19,10 +19,10 @@ block content
                 p#timestamp #{chirp.timestamp_relative}
           p #{chirp.decodedMessage}
 
-      #chirpInput
-        form(action="/newMessage" method="post")
-          input(type="text" name="message" placeholder="message" required autofocus)
-          button Chirp
+    #chirpInput
+      form(action="/newMessage" method="post")
+        input(type="text" name="message" placeholder="message" required autofocus)
+        button Chirp
   else
     #blocker
       h1#icon 🐦

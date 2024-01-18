@@ -27,7 +27,7 @@ exports.profileSecretPost = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.render('profile', { user: req.user, secretErrors: errors.array() });
+      res.redirect('/profile/?secretStatus=invalid');
       return;
     }
 

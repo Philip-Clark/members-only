@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // dotenv
 const User = require('./models/User'); // mongoose
 const bcrypt = require('bcryptjs'); // bcryptjs
-
+const MongoStore = require('connect-mongo');
 dotenv.config(); // dotenv
 const mongoDB = process.env.MONGODB_URI; // dotenv
 mongoose
@@ -26,7 +26,14 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
 
-app.use(session({ secret: 'cats', resave: false, saveUninitialized: true })); // session
+app.use(
+  session({
+    secret: 'cats',
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({ mongoUrl: mongoDB }),
+  })
+); // session
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(
