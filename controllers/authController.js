@@ -4,6 +4,8 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const Role = require('../models/Role');
+const Filter = require('bad-words');
+const filter = new Filter();
 
 exports.loginGet = function (req, res) {
   res.render('login', { user: req.user, title: 'Chirpy | Login' });
@@ -11,10 +13,11 @@ exports.loginGet = function (req, res) {
 
 exports.loginPost = [
   body('username', 'Username must not be empty.').trim().isLength({ min: 1 }).escape(),
+
   body('password', 'Password must not be empty.').trim().isLength({ min: 1 }).escape(),
 
   asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req);
+    const errors = await validationResult(req);
     if (!errors.isEmpty()) {
       res.render('login', { user: req.user, errors: errors.array() });
       return;
@@ -49,6 +52,9 @@ exports.signupPost = [
     next();
   }),
   body('username', 'Username must not be empty.').trim().isLength({ min: 1 }).escape(),
+  body('username', 'Username must not be profane')
+    .custom((value) => !filter.isProfane(value))
+    .escape(),
   body('password', 'Password must not be empty.').trim().isLength({ min: 1 }).escape(),
   body('passwordConfirmation', 'Password confirmation must not be empty.')
     .trim()

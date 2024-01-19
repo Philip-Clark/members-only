@@ -3,6 +3,8 @@ const Chirp = require('../models/Chirp');
 const asyncHandler = require('express-async-handler');
 const { validationResult } = require('express-validator');
 const User = require('../models/User');
+const Filter = require('bad-words');
+const filter = new Filter();
 
 exports.newMessageGet = (req, res, next) => {
   res.render('newMessage', { user: req.user });
@@ -19,9 +21,9 @@ exports.newMessagePost = [
     }
 
     const user = await User.findById(req.user._id);
-
+    const filteredMessage = filter.clean(req.body.message);
     const chirp = new Chirp({
-      message: req.body.message,
+      message: filteredMessage,
       user: user,
     });
 

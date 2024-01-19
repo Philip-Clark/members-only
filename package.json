@@ -7,6 +7,7 @@
     "devStart": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bad-words": "^3.0.4",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^5.1.0",
