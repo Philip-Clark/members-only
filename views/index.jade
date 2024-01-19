@@ -4,6 +4,12 @@ block content
 
   if currentUser
     #chirps
+      if limit == undefined
+        #chirp
+          strong Older Messages Hidden for performance
+          form(action="/" method="get")
+            input(type="hidden" name="limit" value="100000")
+            button.minor#showOlderMessages Show Older Messages 
       each chirp in chirps
         #chirp(role=chirp.user.roles.map((value) => value.name))
           #chirpHeader

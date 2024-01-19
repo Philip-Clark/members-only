@@ -8,11 +8,21 @@ var router = express.Router();
 
 //* HOME
 router.get('/', async (req, res, next) => {
-  const chirps = await Chirp.find()
-    .populate({ path: 'user', populate: { path: 'roles', select: 'name' } })
-    .exec();
+  const chirps = (
+    await Chirp.find()
+      .sort({ timestamp: -1 }) // Sort by createdAt in descending order
+      .limit(parseInt(req.query.limit) || 50)
+      .populate({ path: 'user', populate: { path: 'roles', select: 'name' } })
+      .exec()
+  ).reverse();
+  console.log(req.query.limit);
   const user = await User.findOne(req.user).populate('roles').exec();
-  res.render('index', { user: user, chirps: chirps, title: 'Chirpy' });
+  res.render('index', {
+    user: user,
+    chirps: chirps,
+    title: 'Chirpy',
+    limit: req.query.limit,
+  });
 });
 
 //* LOGIN
